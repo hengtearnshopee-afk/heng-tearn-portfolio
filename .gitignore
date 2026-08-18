@@ -2,3 +2,10 @@
 *.odt
 *.pdf
 .git/
+Shop Drawing/
+*.rar
+*.pptx
+*.xlsx
+*.dwg
+*.bak
+Thumbs.db

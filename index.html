@@ -266,6 +266,12 @@
     z-index: 50;
   }
   .scroll-top.visible { display: block; }
+
+  /* Shop Drawing */
+  .shop-gallery .gallery-item {
+    aspect-ratio: 16/9;
+    max-height: 500px;
+  }
 </style>
 </head>
 <body>
@@ -289,6 +295,7 @@
 <div class="nav">
   <div class="nav-inner">
     <a href="#projects" class="active">Projects</a>
+    <a href="#shopdrawings">Shop Drawings</a>
     <a href="#photos">Work Photos</a>
     <a href="#hobbies">Hobbies & Research</a>
   </div>
@@ -313,9 +320,11 @@
         </div>
         <div class="label">ELV Systems:</div>
         <div style="margin-bottom:14px;">
-          <span class="badge">CCTV</span>
-          <span class="badge">Fire Alarm (FAS)</span>
-          <span class="badge">BMS</span>
+          <span class="badge">Low Voltage (LV)</span>
+          <span class="badge">ELV Systems</span>
+          <span class="badge">MVAC Systems</span>
+          <span class="badge">Plumbing Systems</span>
+          <span class="badge">Fire Fighting Systems</span>
         </div>
         <ul>
           <li>Designed and coordinated ELV system layouts for CCTV camera placement, Fire Alarm detection zones, and BMS integration</li>
@@ -380,6 +389,44 @@
           <li>Liaised with subcontractors and site teams to track progress and resolve technical issues</li>
           <li>Supported testing and commissioning of LV, plumbing, and MVAC systems for project handover</li>
         </ul>
+      </div>
+    </div>
+  </div>
+  <!-- ==================== SHOP DRAWINGS ==================== -->
+  <div id="shopdrawings" style="margin-top: 50px;">
+    <div class="section-title"><span class="icon">&#128208;</span> Shop Drawings</div>
+
+    <div class="project-card">
+      <div class="card-header">
+        <h2>LV & ELV Shop Drawings - Basement Floor</h2>
+        <span class="year">Rev. B</span>
+      </div>
+      <div class="card-body">
+        <div class="meta">
+          <span class="meta-item">&#128196; P24208-SD-MEP-029 to 036</span>
+          <span class="meta-item">&#128295; LV, ELV, Fire Alarm, CCTV</span>
+        </div>
+        <div class="label">Drawing Contents:</div>
+        <div style="margin-bottom:14px;">
+          <span class="badge">LV Distribution</span>
+          <span class="badge">ELV Layout</span>
+          <span class="badge">Fire Alarm</span>
+          <span class="badge">CCTV</span>
+          <span class="badge">Access Control</span>
+          <span class="badge">Structured Cabling</span>
+        </div>
+        <ul>
+          <li>Low Voltage power distribution layout for basement floor</li>
+          <li>ELV system routing for CCTV, Fire Alarm, Access Control, and Structured Cabling</li>
+          <li>Cable tray and conduit routing plans with coordination to architectural and structural</li>
+          <li>Device location plans for smoke detectors, cameras, access readers, and data points</li>
+          <li>Sheet numbers: MEP-029 through MEP-036 (Rev. B)</li>
+        </ul>
+      </div>
+      <div class="album-section">
+        <div class="gallery shop-gallery" data-shop="lv_elv">
+          <div class="gallery-item" onclick="openLightbox(this)"><img src="shop_drawing_preview.png" alt="LV & ELV Shop Drawing" loading="lazy"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -493,6 +540,8 @@
       </div>
     </div>
   </div>
+
+ 
   <!-- ==================== HOBBIES & RESEARCH ==================== -->
   <div id="hobbies" style="margin-top: 50px;">
     <div class="section-title"><span class="icon">&#128300;</span> Hobbies & Research</div>
@@ -642,7 +691,7 @@
 
   // Active nav on scroll
   window.addEventListener('scroll', function() {
-    const sections = ['projects','hobbies','photos'];
+    const sections = ['projects','shopdrawings','photos','hobbies'];
     let current = '';
     sections.forEach(id => {
       const el = document.getElementById(id);
