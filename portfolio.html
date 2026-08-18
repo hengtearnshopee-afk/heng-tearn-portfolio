@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HENG TEARN - Project Portfolio</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Calibri, Arial, sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #333;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+  .container { max-width: 950px; margin: 0 auto; }
+
+  /* Header */
+  .header { text-align: center; margin-bottom: 40px; }
+  .header h1 { color: #fff; font-size: 2.2em; letter-spacing: 2px; }
+  .header p { color: #a8d8ea; font-size: 1.1em; margin-top: 5px; }
+  .contact { text-align: center; margin-bottom: 30px; color: #cde; font-size: 0.95em; }
+  .contact span { margin: 0 10px; }
+  .contact a { color: #67c8ff; text-decoration: none; }
+
+  /* Project Card */
+  .project-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    margin-bottom: 40px;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .project-card:hover { transform: translateY(-3px); }
+  .card-header {
+    background: linear-gradient(90deg, #1a5676, #2c7da0);
+    padding: 20px 25px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .card-header h2 { font-size: 1.25em; }
+  .card-header .year {
+    background: rgba(255,255,255,0.2);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.9em;
+  }
+  .card-body { padding: 20px 25px; }
+  .meta { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
+  .meta-item {
+    background: #e8f4f8;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    color: #1a5676;
+    font-weight: 600;
+  }
+  .card-body ul { list-style: none; padding: 0; }
+  .card-body li {
+    padding: 8px 0 8px 22px;
+    position: relative;
+    font-size: 0.95em;
+    line-height: 1.5;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .card-body li:last-child { border-bottom: none; }
+  .card-body li::before {
+    content: "\25B8";
+    color: #1a5676;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+  }
+  .badge {
+    display: inline-block;
+    background: #1a5676;
+    color: #fff;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 0.75em;
+    margin: 2px 4px 2px 0;
+  }
+
+  /* Photo Album Section */
+  .album-section {
+    padding: 15px 25px 25px;
+    border-top: 1px solid #eee;
+  }
+  .album-title {
+    font-size: 1em;
+    font-weight: 700;
+    color: #1a5676;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .album-title::before {
+    content: "\1F4F7";
+    font-size: 1.1em;
+  }
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+  .gallery-item {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: 4/3;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .gallery-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  }
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .photo-count {
+    background: #1a5676;
+    color: #fff;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 0.8em;
+    margin-left: auto;
+  }
+
+  /* Lightbox */
+  .lightbox {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.92);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .lightbox.active { display: flex; }
+  .lightbox img {
+    max-width: 90%;
+    max-height: 80vh;
+    border-radius: 8px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 20px; right: 30px;
+    color: #fff;
+    font-size: 2em;
+    cursor: pointer;
+    z-index: 10000;
+    transition: color 0.2s;
+  }
+  .lightbox-close:hover { color: #67c8ff; }
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 2.5em;
+    cursor: pointer;
+    padding: 20px;
+    transition: color 0.2s;
+    user-select: none;
+  }
+  .lightbox-nav:hover { color: #67c8ff; }
+  .lightbox-prev { left: 10px; }
+  .lightbox-next { right: 10px; }
+  .lightbox-counter {
+    color: #aaa;
+    margin-top: 15px;
+    font-size: 0.95em;
+  }
+
+  .footer { text-align: center; margin-top: 30px; color: #a8d8ea; font-size: 0.85em; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>HENG TEARN</h1>
+    <p>ELV Design Engineer - Project Portfolio</p>
+  </div>
+
+  <div class="contact">
+    <span>&#9742; +855 98 391 717</span>
+    <span>&#9993; <a href="mailto:hengtearn23@gmail.com">hengtearn23@gmail.com</a></span>
+    <span>&#128205; Phnom Penh, Cambodia</span>
+  </div>
+
+  <!-- ==================== PROJECT 1: FTB ==================== -->
+  <div class="project-card">
+    <div class="card-header">
+      <h2>Foreign Trade Bank (Office) - Steung Meanchey</h2>
+      <span class="year">2025 - 2026</span>
+    </div>
+    <div class="card-body">
+      <div class="meta">
+        <span class="meta-item">&#128205; Phnom Penh, Cambodia</span>
+        <span class="meta-item">&#128295; MEP Site Engineer</span>
+      </div>
+      <p style="margin-bottom:12px; font-weight:600; color:#1a5676;">ELV Systems:</p>
+      <div style="margin-bottom:15px;">
+        <span class="badge">CCTV</span>
+        <span class="badge">Fire Alarm (FAS)</span>
+        <span class="badge">BMS</span>
+      </div>
+      <ul>
+        <li>Designed and coordinated ELV system layouts for CCTV camera placement, Fire Alarm detection zones, and BMS integration</li>
+        <li>Prepared and reviewed technical documents including system schematics, device layouts, cable routing plans, and BOQs</li>
+        <li>Supervised on-site installation of ELV systems ensuring compliance with design drawings and international standards</li>
+        <li>Conducted testing and commissioning of Fire Alarm, CCTV, and BMS systems for handover to client</li>
+        <li>Coordinated with architectural, structural, and electrical teams to resolve design clashes and ensure smooth installation</li>
+      </ul>
+    </div>
+    <div class="album-section">
+      <div class="album-title">Work Photos <span class="photo-count">25 photos</span></div>
+      <div class="gallery" data-project="ftb">
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/photo_4_2026-08-18_16-32-29.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/photo_5_2026-08-18_16-32-29.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/photo_6_2026-08-18_16-32-29.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/photo_7_2026-08-18_16-32-29.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/photo_8_2026-08-18_16-32-29.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/photo_9_2026-08-18_16-32-29.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/photo_10_2026-08-18_16-32-29.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/photo_11_2026-08-18_16-32-29.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/photo_12_2026-08-18_16-32-29.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/photo_13_2026-08-18_16-32-29.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/photo_14_2026-08-18_16-32-29.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/photo_15_2026-08-18_16-32-29.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/photo_16_2026-08-18_16-32-29.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/photo_17_2026-08-18_16-32-29.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/photo_18_2026-08-18_16-32-29.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/photo_19_2026-08-18_16-32-29.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/photo_20_2026-08-18_16-32-29.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/photo_21_2026-08-18_16-32-29.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/photo_22_2026-08-18_16-32-29.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/photo_23_2026-08-18_16-32-29.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/Iot.jpg" alt="FTB IoT" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/485971898_1225972029097064_349988734244739660_n.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/486120348_1225971059097161_7768712876543680914_n.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/486354865_1225972179097049_9069564733775611440_n.jpg" alt="FTB Work" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="FTB/486618557_1225972519097015_6644600768077450357_n.jpg" alt="FTB Work" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PROJECT 2: THE VIEW II ==================== -->
+  <div class="project-card">
+    <div class="card-header">
+      <h2>The View II</h2>
+      <span class="year">2024</span>
+    </div>
+    <div class="card-body">
+      <div class="meta">
+        <span class="meta-item">&#128205; Phnom Penh, Cambodia</span>
+        <span class="meta-item">&#128295; Doc Controller, Inspector & MEP Engineer</span>
+      </div>
+      <p style="margin-bottom:12px; font-weight:600; color:#1a5676;">ELV Systems:</p>
+      <div style="margin-bottom:15px;">
+        <span class="badge">Low Voltage (LV)</span>
+        <span class="badge">ELV Systems</span>
+      </div>
+      <ul>
+        <li>Managed and controlled all MEP and ELV project documentation including drawings, submittals, and approval records</li>
+        <li>Inspected LV and ELV installations on-site to verify compliance with approved designs and specifications</li>
+        <li>Coordinated MEP system integration including power distribution, lighting, CCTV, Access Control, and structured cabling</li>
+        <li>Prepared inspection reports, material submittals, and as-built documentation for client and authority review</li>
+        <li>Ensured quality control of ELV installations and liaised with subcontractors for corrective actions</li>
+      </ul>
+    </div>
+    <div class="album-section">
+      <div class="album-title">Work Photos <span class="photo-count">15 photos</span></div>
+      <div class="gallery" data-project="thv2">
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="THV2/photo_1_2026-08-18_16-14-26.jpg" alt="The View II" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="THV2/photo_2_2026-08-18_16-14-26.jpg" alt="The View II" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="THV2/photo_3_2026-08-18_16-14-26.jpg" alt="The View II" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="THV2/photo_4_2026-08-18_16-14-26.jpg" alt="The View II" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="THV2/photo_5_2026-08-18_16-14-26.jpg" alt="The View II" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="THV2/photo_6_2026-08-18_16-14-26.jpg" alt="The View II" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="THV2/photo_7_2026-08-18_16-14-26.jpg" alt="The View II" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="THV2/photo_8_2026-08-18_16-14-26.jpg" alt="The View II" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="THV2/photo_9_2026-08-18_16-14-26.jpg" alt="The View II" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="THV2/photo_10_2026-08-18_16-14-26.jpg" alt="The View II" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="THV2/photo_11_2026-08-18_16-14-26.jpg" alt="The View II" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="THV2/photo_12_2026-08-18_16-14-26.jpg" alt="The View II" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="THV2/photo_13_2026-08-18_16-14-26.jpg" alt="The View II" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="THV2/photo_14_2026-08-18_16-14-26.jpg" alt="The View II" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="THV2/photo_15_2026-08-18_16-14-26.jpg" alt="The View II" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PROJECT 3: GDT ==================== -->
+  <div class="project-card">
+    <div class="card-header">
+      <h2>GDT Construction Project / P22201</h2>
+      <span class="year">2023 - 2024</span>
+    </div>
+    <div class="card-body">
+      <div class="meta">
+        <span class="meta-item">&#128205; Kandal, Cambodia</span>
+        <span class="meta-item">&#128295; MEP Engineer</span>
+      </div>
+      <p style="margin-bottom:12px; font-weight:600; color:#1a5676;">Systems:</p>
+      <div style="margin-bottom:15px;">
+        <span class="badge">Low Voltage (LV)</span>
+        <span class="badge">Plumbing</span>
+        <span class="badge">MVAC</span>
+      </div>
+      <ul>
+        <li>Coordinated LV power distribution, plumbing, and MVAC system design and installation across the construction project</li>
+        <li>Prepared and reviewed MEP technical documents including layouts, schematics, and material submittals</li>
+        <li>Inspected on-site MEP installations ensuring compliance with approved drawings and project specifications</li>
+        <li>Liaised with subcontractors and site teams to track progress and resolve technical issues</li>
+        <li>Supported testing and commissioning of LV, plumbing, and MVAC systems for project handover</li>
+      </ul>
+    </div>
+    <div class="album-section">
+      <div class="album-title">Work Photos <span class="photo-count">9 photos</span></div>
+      <div class="gallery" data-project="gdt">
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="GDT project/photo_1_2026-08-18_15-44-36.jpg" alt="GDT Project" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="GDT project/photo_2_2026-08-18_15-44-36.jpg" alt="GDT Project" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="GDT project/photo_3_2026-08-18_15-44-36.jpg" alt="GDT Project" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="GDT project/photo_4_2026-08-18_15-44-36.jpg" alt="GDT Project" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="GDT project/photo_5_2026-08-18_15-44-36.jpg" alt="GDT Project" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="GDT project/photo_6_2026-08-18_15-44-36.jpg" alt="GDT Project" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="GDT project/photo_7_2026-08-18_15-44-36.jpg" alt="GDT Project" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="GDT project/photo_8_2026-08-18_15-44-36.jpg" alt="GDT Project" loading="lazy"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="GDT project/photo_9_2026-08-18_15-44-36.jpg" alt="GDT Project" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>&copy; 2026 HENG TEARN | ELV Design Engineer</p>
+  </div>
+
+</div>
+
+<!-- Lightbox Modal -->
+<div class="lightbox" id="lightbox">
+  <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+  <span class="lightbox-nav lightbox-prev" onclick="navigate(-1)">&#10094;</span>
+  <span class="lightbox-nav lightbox-next" onclick="navigate(1)">&#10095;</span>
+  <img id="lightbox-img" src="" alt="Full View">
+  <div class="lightbox-counter" id="lightbox-counter"></div>
+</div>
+
+<script>
+  let currentImages = [];
+  let currentIndex = 0;
+
+  function openLightbox(el) {
+    const gallery = el.closest('.gallery');
+    currentImages = Array.from(gallery.querySelectorAll('img'));
+    currentIndex = currentImages.indexOf(el.querySelector('img'));
+    showImage();
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function showImage() {
+    document.getElementById('lightbox-img').src = currentImages[currentIndex].src;
+    document.getElementById('lightbox-counter').textContent =
+      (currentIndex + 1) + ' / ' + currentImages.length;
+  }
+
+  function navigate(dir) {
+    currentIndex = (currentIndex + dir + currentImages.length) % currentImages.length;
+    showImage();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('lightbox').classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigate(-1);
+    if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  document.getElementById('lightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
+  });
+</script>
+</body>
+</html>
