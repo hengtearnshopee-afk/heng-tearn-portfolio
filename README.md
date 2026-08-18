@@ -6,14 +6,14 @@
 
 ## About
 
-Electrical Engineer with 5+ years of experience in MEP building services, telecommunications, and low-voltage systems design. Proficient in ELV system design including CCTV, Fire Alarm, Access Control, BMS, PA, and Structured Cabling.
+Electrical Engineer with 3+ years of experience in MEP building services, telecommunications, and low-voltage systems design. Proficient in LV & ELV system design including CCTV, Fire Alarm, Access Control, BMS, PA, and Structured Cabling.
 
 ## Projects
 
-### 1. Foreign Trade Bank (Office) - Steung Meanchey
+### 1. Foreign Trade Bank-Office Steung Meanchey
 - **Year:** 2025 - 2026
 - **Role:** MEP Site Engineer
-- **ELV Systems:** CCTV, Fire Alarm (FAS), BMS
+- **ELV Systems:** CCTV, Fire Alarm (FAS),Access Control,Intrusion Alarm, BMS
 - **Location:** Phnom Penh, Cambodia
 
 ### 2. The View II
